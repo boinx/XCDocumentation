@@ -14,15 +14,25 @@ end run
 -- Opens the documentation file at $SRCROOT/Document/relativePath with its native editor application
 
 on openDocumentation(relativePath)
-	set myPath to SRCROOT()
-	if not (last character of myPath is "/") then
-		set myPath to myPath & "/"
+	
+	-- get $SRCROOT and append a trailing / if necessary
+	set absolutePath to SRCROOT()
+	if not (last character of absolutePath is "/") then
+		set absolutePath to absolutePath & "/"
 	end if
-	set myPath to myPath & "Documentation/" & relativePath
+	
+	-- Append "Document/relativePath"
+	set absolutePath to absolutePath & "Documentation/" & relativePath
+	set myFile to POSIX file absolutePath
+	
+	-- Try to open the file
 	tell application "Finder"
-		open file myPath
+		open myFile
 	end tell
-	return relativePath
+	
+	-- Return the absolute path to the file
+	return absolutePath
+	
 end openDocumentation
 
 
