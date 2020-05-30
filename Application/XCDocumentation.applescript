@@ -27,7 +27,7 @@ on openDocumentation(relativePath)
 	set myFile to POSIX file absolutePath
 	
 	-- Try to open the file 
-	tell application "Finder" to open (absolutePath as POSIX file)
+	tell application "Finder" to open myFile
 	return absolutePath
 	
 end openDocumentation
