@@ -11,7 +11,8 @@ end run
 ------------------------------------------------------------------------------------------------------------------------
 
 
--- Opens the documentation file at $SRCROOT/Document/relativePath with its native editor application
+-- Opens the documentation file at $SRCROOT/Document/relativePath with its native editor application.
+-- Returns the absolute path to the file.
 
 on openDocumentation(relativePath)
 	
@@ -26,11 +27,7 @@ on openDocumentation(relativePath)
 	set myFile to POSIX file absolutePath
 	
 	-- Try to open the file
-	tell application "Finder"
-		open myFile
-	end tell
-	
-	-- Return the absolute path to the file
+	tell application "Finder" to open (absolutePath as POSIX file)
 	return absolutePath
 	
 end openDocumentation
@@ -39,12 +36,24 @@ end openDocumentation
 ------------------------------------------------------------------------------------------------------------------------
 
 
--- Creates a documentation file at $SRCROOT/Document/relativePath and returns the relativePath to it
+-- Creates a new documentation file at $SRCROOT/Document/filename and returns the relativePath to it.
+-- The user gets to enter the filename and choose from several templates.
 
 on newDocumentation()
 	set relativePath to "new.pdf"
 	return relativePath
 end newDocumentation
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+-- Lets the user select an existing file from the Documentation folder and returns the relativePath to it
+
+on selectDocumentation()
+	set relativePath to "Bla.pdf"
+	return relativePath
+end selectDocumentation
 
 
 ------------------------------------------------------------------------------------------------------------------------
