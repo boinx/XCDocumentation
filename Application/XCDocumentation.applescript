@@ -1,17 +1,24 @@
--- Returns the current $SRCROOT 
+------------------------------------------------------------------------------------------------------------------------
+
+
+-- This function should not be called from the Extenstion and is used instead for testing during script development
 
 on run
-	set sourceFilePath to activeSourceFilePath()
-	set myProject to projectForSourceFilePath(sourceFilePath)
-	set mySRCROOT to getSRCROOTofProject(myProject)
-	return mySRCROOT
+	openDocumentation("Architecture.pdf")
 end run
+
+
+------------------------------------------------------------------------------------------------------------------------
 
 
 -- Opens the documentation file at $SRCROOT/Document/relativePath with its native editor application
 
 on openDocumentation(relativePath)
-	set myPath to SRCROOT() & "Documentation/" & relativePath
+	set myPath to SRCROOT()
+	if not (last character of myPath is "/") then
+		set myPath to myPath & "/"
+	end if
+	set myPath to myPath & "Documentation/" & relativePath
 	tell application "Finder"
 		open file myPath
 	end tell
@@ -19,15 +26,21 @@ on openDocumentation(relativePath)
 end openDocumentation
 
 
+------------------------------------------------------------------------------------------------------------------------
+
+
 -- Creates a documentation file at $SRCROOT/Document/relativePath and returns the relativePath to it
 
 on newDocumentation()
 	set relativePath to "new.pdf"
 	return relativePath
-end openDocumentation
+end newDocumentation
 
 
--- Returns the current SRCROOT, i.e. the directory containing the Xcode project file
+------------------------------------------------------------------------------------------------------------------------
+
+
+-- Returns the current $SRCROOT, i.e. the directory containing the current Xcode project file
 
 on SRCROOT()
 	set sourceFilePath to activeSourceFilePath()
@@ -35,6 +48,9 @@ on SRCROOT()
 	set myPath to getSRCROOTofProject(myProject)
 	return myPath
 end SRCROOT
+
+
+------------------------------------------------------------------------------------------------------------------------
 
 
 -- Returns the path to the source file that is currently being edited in Xcode
@@ -49,6 +65,9 @@ on activeSourceFilePath()
 	end tell
 	return myPath
 end activeSourceFilePath
+
+
+------------------------------------------------------------------------------------------------------------------------
 
 
 -- Returns the Xcode project that contains the specified source file
@@ -89,7 +108,10 @@ on projectForSourceFilePath(sourceFilePath)
 end projectForSourceFilePath
 
 
--- Returns $SRCROOT for the specified Xcode project 
+------------------------------------------------------------------------------------------------------------------------
+
+
+-- Returns $SRCROOT for the specified Xcode project
 
 on getSRCROOTofProject(myProject)
 	tell application "Xcode"
@@ -98,3 +120,6 @@ on getSRCROOTofProject(myProject)
 	end tell
 	return mySRCROOT
 end getSRCROOTofProject
+
+
+------------------------------------------------------------------------------------------------------------------------
