@@ -26,7 +26,7 @@ on openDocumentation(relativePath)
 	set absolutePath to absolutePath & "Documentation/" & relativePath
 	set myFile to POSIX file absolutePath
 	
-	-- Try to open the file
+	-- Try to open the file 
 	tell application "Finder" to open (absolutePath as POSIX file)
 	return absolutePath
 	
@@ -40,7 +40,7 @@ end openDocumentation
 -- The user gets to enter the filename and choose from several templates.
 
 on newDocumentation()
-	set relativePath to "new.pdf"
+	set relativePath to "Foo.pdf"
 	return relativePath
 end newDocumentation
 
@@ -51,7 +51,7 @@ end newDocumentation
 -- Lets the user select an existing file from the Documentation folder and returns the relativePath to it
 
 on selectDocumentation()
-	set relativePath to "Bla.pdf"
+	set relativePath to "Bar.pdf"
 	return relativePath
 end selectDocumentation
 
