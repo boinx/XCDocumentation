@@ -1,14 +1,16 @@
+//**********************************************************************************************************************
 //
 //  SourceEditorCommand.swift
-//  Extension
+//	Implementation for the editor commands
+//  Copyright ©2020 by IMAGINE GbR & Boinx Software International GmbH. All rights reserved.
 //
-//  Created by peter on 29.05.20.
-//  Copyright © 2020 Peter Baumgartner. All rights reserved.
-//
+//**********************************************************************************************************************
+
 
 import Foundation
 import XcodeKit
 import AppKit
+
 
 // Find details at documentation://Architecture.pdf to get the big picture.
 
@@ -18,30 +20,164 @@ import AppKit
 	
 class SourceEditorCommand : NSObject, XCSourceEditorCommand
 {
-    func perform(with invocation:XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?)->Void ) -> Void
+
+	/// This is the entry point when menu commands are selected in the Xcode editor menu
+	
+    func perform(with invocation:XCSourceEditorCommandInvocation, completionHandler:@escaping (Error?)->Void) -> Void
     {
-		let relativePath = self.selectedString(for:invocation)
+		let identifier = invocation.commandIdentifier
 		
-		self.openDocumentation(for:relativePath)
+		// Open existing documentation
+		
+		if identifier == "com.boinx.XCDocumentation.Extension.open"
 		{
-			absolutePath,error in
+			let relativePath = self.selectedString(for:invocation)
 			
-			if let error = error
+			self.openDocumentation(for:relativePath)
 			{
-				NSLog("ERROR trying to open documentation://\(relativePath):\n\(error)")
+				_,error in
+				completionHandler(error)
 			}
-			else if let absolutePath = absolutePath
+		}
+		
+		// Create a new documentation file and insert the text at the current selection
+		
+		else if identifier == "com.boinx.XCDocumentation.Extension.new"
+		{
+			self.newDocumentation()
 			{
-				NSLog("Opened file at \(absolutePath)")
+				relativePath,error in
+				completionHandler(error)
 			}
-			
-			completionHandler(error)
+		}
+		
+		// Insert a documentation:// comment for an existing file at the current selection
+		
+		else if identifier == "com.boinx.XCDocumentation.Extension.select"
+		{
+			self.selectDocumentation()
+			{
+				relativePath,error in
+				completionHandler(error)
+			}
 		}
     }
     
     
 //----------------------------------------------------------------------------------------------------------------------
 	
+	
+	// MARK: -
+	
+	/// Opens the documentation file for the specified relativePath
+	/// - Returns: The absolute path to the documentation file
+	
+	func openDocumentation(for relativePath:String, completionHandler:@escaping (String?,Error?)->Void)
+    {
+		do
+		{
+			let script = try BXAppleScript(named:"XCDocumentation")
+			
+			script.run(function:"openDocumentation", argument:relativePath)
+			{
+				result,error in
+
+				if let error = error
+				{
+					NSLog("SCRIPT ERROR: \(error)")
+				}
+				else if let result = result
+				{
+					NSLog("result = \(result)")
+				}
+				
+				completionHandler(result,error)
+			}
+		}
+		catch let error
+		{
+			NSLog("ERROR: \(error)")
+			completionHandler(nil,error)
+		}
+    }
+
+
+//----------------------------------------------------------------------------------------------------------------------
+	
+	
+	/// Lets the user create a new the documentation file.
+	/// - Returns: The relative path to the documentation file
+	
+	func newDocumentation(completionHandler:@escaping (String?,Error?)->Void)
+    {
+		do
+		{
+			let script = try BXAppleScript(named:"XCDocumentation")
+			
+			script.run(function:"newDocumentation", argument:nil)
+			{
+				result,error in
+
+				if let error = error
+				{
+					NSLog("SCRIPT ERROR: \(error)")
+				}
+				else if let result = result
+				{
+					NSLog("result = \(result)")
+				}
+				
+				completionHandler(result,error)
+			}
+		}
+		catch let error
+		{
+			NSLog("ERROR: \(error)")
+			completionHandler(nil,error)
+		}
+    }
+
+
+//----------------------------------------------------------------------------------------------------------------------
+	
+	
+	/// Lets the user select an existing documentation file.
+	/// - Returns: The relative path to the documentation file
+	
+	func selectDocumentation(completionHandler:@escaping (String?,Error?)->Void)
+    {
+		do
+		{
+			let script = try BXAppleScript(named:"XCDocumentation")
+			
+			script.run(function:"newDocumentation", argument:nil)
+			{
+				result,error in
+
+				if let error = error
+				{
+					NSLog("SCRIPT ERROR: \(error)")
+				}
+				else if let result = result
+				{
+					NSLog("result = \(result)")
+				}
+				
+				completionHandler(result,error)
+			}
+		}
+		catch let error
+		{
+			NSLog("ERROR: \(error)")
+			completionHandler(nil,error)
+		}
+    }
+
+
+//----------------------------------------------------------------------------------------------------------------------
+	
+	
+	// MARK: -
 	
     func selectedLine(for invocation:XCSourceEditorCommandInvocation) -> String
     {
@@ -76,99 +212,6 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 		
 		return ""
 	}
-	
-    
-//----------------------------------------------------------------------------------------------------------------------
-	
-	
-     func openDocumentation(for path:String, completionHandler:@escaping (String?,Error?)->Void)
-    {
-		do
-		{
-			let script = try BXAppleScript(named:"XCDocumentation")
-			
-			script.run(function:"openDocumentation", argument:path)
-			{
-				result,error in
-
-				if let error = error
-				{
-					print("Script error: \(error)")
-					completionHandler(nil,error)
-				}
-				else if let result = result
-				{
-					print("result: \(result)")
-					completionHandler(result,nil)
-				}
-				else
-				{
-					print("got nil result")
-					completionHandler(nil,nil)
-				}
-			}
-		}
-		catch let error
-		{
-			print("Error: \(error)")
-			completionHandler(nil,error)
-		}
-    }
-
-
-   /// Executes an AppleScript to get the value of $SRCROOT for the current Xcode project, i.e. the project that contains the file that is currently
-    /// being edited.
-    
-    func getSRCROOT(completionHandler:@escaping (String?,Error?)->Void)
-    {
-		do
-		{
-			let script = try BXAppleScript(named:"XCDocumentation")
-			
-			script.run(function:"SRCROOT", argument:nil)
-			{
-				result,error in
-
-				if let error = error
-				{
-					print("Script error: \(error)")
-					completionHandler(nil,error)
-				}
-				else if let result = result
-				{
-					print("result: \(result)")
-					completionHandler(result,nil)
-				}
-				else
-				{
-					print("got nil result")
-					completionHandler(nil,nil)
-				}
-			}
-		}
-		catch let error
-		{
-			print("Error: \(error)")
-			completionHandler(nil,error)
-		}
-    }
-   
-   
-//----------------------------------------------------------------------------------------------------------------------
-	
-	
-    func revealInXcode(url:URL)
-    {
-		if let xcodeURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier:"com.apple.dt.Xcode")
-		{
-			print("xcodeURL: \(xcodeURL)")
-			print("fileURL: \(url)")
-			let config = NSWorkspace.OpenConfiguration()
-			config.promptsUserIfNeeded = true
-			NSWorkspace.shared.open([url], withApplicationAt:xcodeURL, configuration:config)
-		}
-    }
-    
 }
 
 

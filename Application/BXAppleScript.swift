@@ -1,19 +1,15 @@
+//**********************************************************************************************************************
 //
 //  BXAppleScript.swift
+//	Helper class for installing and running AppleScripts from sandboxed applications
+//  Copyright ©2020 by IMAGINE GbR & Boinx Software International GmbH. All rights reserved.
 //
-//  Created by peter on 30.05.20.
-//  Copyright © 2020 Peter Baumgartner. All rights reserved.
-//
+//**********************************************************************************************************************
+
 
 import Foundation
 import AppKit
 import Carbon
-
-
-//----------------------------------------------------------------------------------------------------------------------
-	
-	
-// Find details at documentation://Architecture.pdf to get the big picture
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -55,10 +51,23 @@ public class BXAppleScript
 	
 	public class func needsInstalling(for name:String) -> Bool
 	{
+		guard let srcURL = Bundle.main.url(forResource:name, withExtension:"scpt") else { return false }
+		
 		if let directoryURL = try? scriptsDirectoryURL()
 		{
-			let scriptURL = directoryURL.appendingPathComponent(name).appendingPathExtension("scpt")
-			return !FileManager.default.fileExists(atPath:scriptURL.path)
+			let dstURL = directoryURL.appendingPathComponent(name).appendingPathExtension("scpt")
+			
+			if !dstURL.exists
+			{
+				return true
+			}
+			
+			if let srcDate = srcURL.modificationDate, let dstDate = dstURL.modificationDate, srcDate > dstDate
+			{
+				return true
+			}
+			
+			return false
 		}
 		
 		return true
@@ -166,3 +175,7 @@ public class BXAppleScript
 		}
 	}
 }
+
+
+//----------------------------------------------------------------------------------------------------------------------
+	
