@@ -32,9 +32,9 @@
 					<key>XCSourceEditorCommandClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).SourceEditorCommand</string>
 					<key>XCSourceEditorCommandIdentifier</key>
-					<string>$(PRODUCT_BUNDLE_IDENTIFIER).reveal</string>
+					<string>$(PRODUCT_BUNDLE_IDENTIFIER).open</string>
 					<key>XCSourceEditorCommandName</key>
-					<string>Reveal</string>
+					<string>Open</string>
 				</dict>
 				<dict>
 					<key>XCSourceEditorCommandClassName</key>
@@ -43,6 +43,14 @@
 					<string>$(PRODUCT_BUNDLE_IDENTIFIER).new</string>
 					<key>XCSourceEditorCommandName</key>
 					<string>New…</string>
+				</dict>
+				<dict>
+					<key>XCSourceEditorCommandClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SourceEditorCommand</string>
+					<key>XCSourceEditorCommandIdentifier</key>
+					<string>$(PRODUCT_BUNDLE_IDENTIFIER).select</string>
+					<key>XCSourceEditorCommandName</key>
+					<string>Select…</string>
 				</dict>
 			</array>
 			<key>XCSourceEditorExtensionPrincipalClass</key>
