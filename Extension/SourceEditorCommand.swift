@@ -222,24 +222,24 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	func insertDocumentationComment(with relativePath:String?, in buffer:XCSourceTextBuffer)
 	{
 		guard let relativePath = relativePath else { return }
-		
+		guard let lines = buffer.lines as? [String] else { return }
 		guard let selection = buffer.selections.firstObject as? XCSourceTextRange else { return }
+		
 		let row = selection.start.line
 		let col = selection.start.column
+		let line = lines[row] as NSString
 		
-		if let line = buffer.lines[row] as? NSString
-		{
-			// Insert the comment at the current cursor position
+		// Insert the comment at the current cursor position
 			
-			let comment = "documentation://\(relativePath)"
-			line.replacingCharacters(in:NSMakeRange(col,0), with:comment)
-
-			// Select the new comment
-			
-			let n = comment.count
-			selection.start.column = col
-			selection.end.column = col+n
-		}
+		let comment = "documentation://\(relativePath)"
+		let newLine = line.replacingCharacters(in:NSMakeRange(col,0), with:comment)
+		buffer.lines[row] = newLine as NSString
+		
+		// Select the new comment
+		
+		let n = comment.count
+		selection.start.column = col
+		selection.end.column = col+n
 	}
 }
 
