@@ -20,78 +20,23 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 {
     func perform(with invocation:XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?)->Void ) -> Void
     {
-//		guard let selection = invocation.buffer.selections.firstObject as? XCSourceTextRange else
-//		{
-//			completionHandler( NSError(
-//				domain: "com.boinx.XCDocumentation",
-//				code: -1,
-//				userInfo: [NSLocalizedDescriptionKey:"XCDocumentation requires a text selection"]))
-//				
-//			return
-//		}
+		let relativePath = self.selectedString(for:invocation)
 		
-//		let row = selection.start.line
-//		let col1 = selection.start.column
-//		let col2 = selection.end.column
-		let str = self.selectedString(for:invocation)
-		
-		self.openDocumentation(for:str)
+		self.openDocumentation(for:relativePath)
 		{
-			result,error in
+			absolutePath,error in
+			
+			if let error = error
+			{
+				NSLog("ERROR trying to open documentation://\(relativePath):\n\(error)")
+			}
+			else if let absolutePath = absolutePath
+			{
+				NSLog("Opened file at \(absolutePath)")
+			}
+			
+			completionHandler(error)
 		}
-		
-//		print("\n")
-//		print("row=\(row)  col1=\(col1)  col2=\(col2)  string = '\(str)'")
-//
-//		self.getSRCROOT()
-//		{
-//			srcroot,error in
-//
-//			if let error = error
-//			{
-//				print("error = \(error)")
-//				completionHandler(error)
-//			}
-//			else if let SRCROOT = srcroot
-//			{
-//				print("$SRCROOT = \(SRCROOT)")
-//
-//				let string = self.selectedString(for:invocation)
-//				print("string = \(string)")
-//
-//				let fileURL = URL(fileURLWithPath:SRCROOT)
-//					.appendingPathComponent("Documentation")
-//					.appendingPathComponent(string)
-//
-//				print("fileURL = \(fileURL)")
-//				self.revealInXcode(url:fileURL)
-//				completionHandler(nil)
-//			}
-//			else
-//			{
-//				completionHandler(nil)
-//			}
-//		}
-		
-//		let srcroot =
-//		let index = selection.start.line
-//		guard let line = invocation.buffer.lines[index] as? NSString else
-//		{
-//			completionHandler( NSError(
-//				domain: "com.boinx.XCDocumentation",
-//				code: -2,
-//				userInfo: [NSLocalizedDescriptionKey:"Couldn't access text of selected line"]))
-//
-//			return
-//		}
-//
-//		let env = ProcessInfo.processInfo.environment
-//		let envStr = "Extension environment: \(env)"
-//		invocation.buffer.lines.replaceObject(at: index, with:envStr)
-//
-//        // Implement your command here, invoking the completion handler when done. Pass it nil on success, and an NSError on failure.
-//
-//        completionHandler(nil)
     }
     
     
