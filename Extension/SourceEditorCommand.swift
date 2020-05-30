@@ -26,6 +26,7 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
     func perform(with invocation:XCSourceEditorCommandInvocation, completionHandler:@escaping (Error?)->Void) -> Void
     {
 		let identifier = invocation.commandIdentifier
+		let buffer = invocation.buffer
 		
 		// Open existing documentation
 		
@@ -40,13 +41,14 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 			}
 		}
 		
-		// Create a new documentation file and insert the text at the current selection
+		// Create a new documentation file and insert a documentation:// comment at the current selection
 		
 		else if identifier == "com.boinx.XCDocumentation.Extension.new"
 		{
 			self.newDocumentation()
 			{
 				relativePath,error in
+				self.insertDocumentationComment(with:relativePath, in:buffer)
 				completionHandler(error)
 			}
 		}
@@ -58,6 +60,7 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 			self.selectDocumentation()
 			{
 				relativePath,error in
+				self.insertDocumentationComment(with:relativePath, in:buffer)
 				completionHandler(error)
 			}
 		}
@@ -179,8 +182,10 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	
 	// MARK: -
 	
+	
     func selectedLine(for invocation:XCSourceEditorCommandInvocation) -> String
     {
+		guard let lines = invocation.buffer.lines as? [String] else { return "" }
 		guard let selection = invocation.buffer.selections.firstObject as? XCSourceTextRange else { return "" }
 
 		let row = selection.start.line
@@ -189,7 +194,7 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 
 		print("row=\(row)  col1=\(col1)  col2=\(col2)")
 		
-		let line = invocation.buffer.lines[row] as? String ?? ""
+		let line = lines[row]
 		print("line=\(line)")
 		return line
 	}
@@ -212,9 +217,32 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 		
 		return ""
 	}
+	
+	
+	func insertDocumentationComment(with relativePath:String?, in buffer:XCSourceTextBuffer)
+	{
+		guard let relativePath = relativePath else { return }
+		
+		guard let selection = buffer.selections.firstObject as? XCSourceTextRange else { return }
+		let row = selection.start.line
+		let col = selection.start.column
+		
+		if let line = buffer.lines[row] as? NSString
+		{
+			// Insert the comment at the current cursor position
+			
+			let comment = "documentation://\(relativePath)"
+			line.replacingCharacters(in:NSMakeRange(col,0), with:comment)
+
+			// Select the new comment
+			
+			let n = comment.count
+			selection.start.column = col
+			selection.end.column = col+n
+		}
+	}
 }
 
 
 //----------------------------------------------------------------------------------------------------------------------
-	
 	
