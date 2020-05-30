@@ -153,7 +153,7 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 		{
 			let script = try BXAppleScript(named:"XCDocumentation")
 			
-			script.run(function:"newDocumentation", argument:nil)
+			script.run(function:"selectDocumentation", argument:nil)
 			{
 				result,error in
 
