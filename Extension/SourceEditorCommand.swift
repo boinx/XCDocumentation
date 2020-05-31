@@ -33,6 +33,9 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	}
 	
 	
+//----------------------------------------------------------------------------------------------------------------------
+	
+	
 	/// This is the entry point when menu commands are selected in the Xcode editor menu
 	
     func perform(with invocation:XCSourceEditorCommandInvocation, completionHandler:@escaping (Swift.Error?)->Void) -> Void
@@ -56,7 +59,19 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 		
 		else if identifier == "com.boinx.XCDocumentation.Extension.open"
 		{
-			let relativePath = self.selectedString(for:invocation)
+			let line = self.selectedLine(for:invocation)
+			
+			guard let documentationURL = self.documentationURL(in:line) else
+			{
+				completionHandler(nil)
+				return
+			}
+			
+			guard let relativePath = self.relativePath(in:documentationURL) else
+			{
+				completionHandler(nil)
+				return
+			}
 			
 			self.editDocumentation(for:relativePath)
 			{
@@ -282,8 +297,33 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	
 	func documentationURL(in line:String) -> String?
 	{
+		let pattern = "documentation://([^\\s]*)"
+		
+		if let regex = try? NSRegularExpression(pattern:pattern,options:.caseInsensitive)
+		{
+			var match:NSTextCheckingResult? = nil
+			
+			repeat
+			{
+				match = regex.firstMatch(in:line, options:[], range:NSMakeRange(0,line.count))
+				
+				if let match = match, match.numberOfRanges > 0
+				{
+					let range = match.range(at:0)
+					
+					if range.location != NSNotFound, let r = Range(range, in:line)
+					{
+						let string = String(line[r])
+						return string
+					}
+				}
+			}
+			while match != nil
+		}
+
 		return nil
 	}
+	
 	
 	func relativePath(in documentationURL:String?) -> String?
 	{
