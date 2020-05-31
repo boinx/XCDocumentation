@@ -4,38 +4,9 @@
 -- This function should not be called from the Extenstion and is used instead for testing during script development
 
 on run
-	openDocumentation("Architecture.pdf")
+	showDocumentationInXcode("Test.pages")
+	--newDocumentation("/Users/peter/Library/Application Support/com.boinx.XCDocumentation/Templates")  
 end run
-
-
-------------------------------------------------------------------------------------------------------------------------
-
-
--- Opens the documentation file at $SRCROOT/Document/relativePath with its native editor application.
--- Returns the absolute path to the file.
-
-on openDocumentation(relativePath)
-	
-	-- get $SRCROOT and append a trailing / if necessary
-	set absolutePath to SRCROOT()
-	if not (last character of absolutePath is "/") then
-		set absolutePath to absolutePath & "/"
-	end if
-	
-	-- Append "Document/relativePath"
-	set absolutePath to absolutePath & "Documentation/" & relativePath
-	set myFile to POSIX file absolutePath
-	
-	-- Try to open the file
-	try
-		tell application "Finder" to open myFile
-	on error
-		set message to "The file '" & relativePath & "' doesn't exist."
-		display dialog message with title "Error" with icon caution buttons {"OK"} default button "OK"
-	end try
-	return absolutePath
-	
-end openDocumentation
 
 
 ------------------------------------------------------------------------------------------------------------------------
@@ -182,7 +153,6 @@ on fileNameWithoutExtension(filename)
 end fileNameWithoutExtension
 
 
-
 ------------------------------------------------------------------------------------------------------------------------
 
 
@@ -192,6 +162,54 @@ on selectDocumentation()
 	set relativePath to "Bar.pdf"
 	return relativePath
 end selectDocumentation
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+-- Opens the documentation file at $SRCROOT/Document/relativePath with its native editor application.
+-- Returns the absolute path to the file.
+
+on editDocumentation(relativePath)
+	
+	set absolutePath to absolutePathFor(relativePath) of me
+	set myFile to POSIX file absolutePath
+
+	try
+		tell application "Finder"
+			open myFile
+		end tell
+	on error
+		displayMissingFileAlert(relativePath)
+	end try
+
+	return absolutePath
+	
+end openDocumentation
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+-- Shows the documentation file at $SRCROOT/Document/relativePath within Xcode (using QuickLook).
+-- Returns the absolute path to the file.
+
+on showDocumentation(relativePath)
+	
+	set absolutePath to absolutePathFor(relativePath)
+	set myFile to POSIX file absolutePath
+	
+	try
+		tell application "Xcode"
+			open myFile
+		end tell
+	on error
+		displayMissingFileAlert(relativePath)
+	end try
+	
+	return absolutePath
+	
+end showDocumentationInXcode
 
 
 ------------------------------------------------------------------------------------------------------------------------
@@ -210,6 +228,30 @@ end SRCROOT
 ------------------------------------------------------------------------------------------------------------------------
 
 
+on absolutePathFor(relativePath)
+	
+	-- get $SRCROOT and append a trailing / if necessary
+	set absolutePath to SRCROOT()
+	if not (last character of absolutePath is "/") then
+		set absolutePath to absolutePath & "/"
+	end if
+	
+	-- Append "Document/relativePath"
+	set absolutePath to absolutePath & "Documentation/" & relativePath
+	return absolutePath
+	
+end absolutePathFor
+
+
+on displayMissingFileAlert(relativePath)
+	set message to "The file '" & relativePath & "' doesn't exist."
+	display dialog message with title "Error" with icon caution buttons {"OK"} default button "OK"
+end showDocumentationInXcode
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+
 on activeSourceFileName()
 	
 	set activeDocument to activeXcodeDocument()
@@ -223,8 +265,16 @@ end activeSourceFileName
 
 on activeSourceFilePath()
 	
-	set activeDocument to activeXcodeDocument()
-	set myPath to path of activeDocument
+	--set activeDocument to activeXcodeDocument()
+	--set myPath to path of activeDocument
+	
+	tell application "Xcode"
+		-- alternative:
+		set myDocument to front source document
+		set myPath to path of myDocument
+		--set activeDocument to document 1 whose name ends with (word -1 of (get name of window 1))
+		--set myPath to path of activeDocument
+	end tell
 	
 	return myPath
 	
@@ -234,19 +284,19 @@ on activeXcodeDocument()
 	
 	tell application "Xcode"
 		
-		-- Alternativ: Doens't work with multiple documents thought, but should be more robust
+		-- Alternativ: Doesn't work with multiple documents though, but should be more robust
 		-- set myDocument to front source document
 		-- set myPath to path of myDocument
 		
 		set frontWindowName to name of window 1
 		
-		-- If a document is dirty, it ends with " â€” Edited".
+		-- If a document is dirty, it ends with " Ñ Edited".
 		-- We try to get the file name at the beginning:
 		
 		-- save old delimiters
 		set oldAppleDelimiter to AppleScript's text item delimiters
 		
-		set AppleScript's text item delimiters to " â€” " -- Note: special minus !
+		set AppleScript's text item delimiters to " Ñ " -- Note: special minus !
 		
 		set myDocumentNameParts to every text item of frontWindowName
 		
