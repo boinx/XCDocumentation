@@ -117,7 +117,9 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 		{
 			let script = try BXAppleScript(named:"XCDocumentation")
 			
-			script.run(function:"newDocumentation", argument:nil)
+			let templatePath = "/Users/\(NSUserName())/Library/Application Support/com.boinx.XCDocumentation/Templates"
+			
+			script.run(function:"newDocumentation", argument:templatePath)
 			{
 				result,error in
 

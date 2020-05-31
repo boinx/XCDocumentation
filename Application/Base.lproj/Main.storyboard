@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -56,6 +56,11 @@
                                         <menuItem title="Install Scripts…" keyEquivalent="i" id="y2b-p0-l4e">
                                             <connections>
                                                 <action selector="installScript:" target="Voe-Tx-rLC" id="Mwn-Bo-vm6"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Open Template Folder" keyEquivalent="o" id="hdf-5b-SAU">
+                                            <connections>
+                                                <action selector="openTemplateFolder:" target="Voe-Tx-rLC" id="twk-ZY-jg5"/>
                                             </connections>
                                         </menuItem>
                                     </items>

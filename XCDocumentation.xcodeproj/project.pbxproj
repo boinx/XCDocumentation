@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D0177AC3248157A800C5C368 /* Documentation in Resources */ = {isa = PBXBuildFile; fileRef = D0177AC2248157A800C5C368 /* Documentation */; };
+		9889E4422483A944000C6642 /* Templates in Resources */ = {isa = PBXBuildFile; fileRef = 9889E4412483A944000C6642 /* Templates */; };
 		D030AEBD24829FA700FAE17C /* URL+Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030AEBC24829FA700FAE17C /* URL+Info.swift */; };
 		D030AEBF2482A18F00FAE17C /* URL+Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030AEBC24829FA700FAE17C /* URL+Info.swift */; };
 		D030AEC02482A19D00FAE17C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C1B0EF24810AD8004FA162 /* ContentView.swift */; };
@@ -64,6 +64,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9889E4412483A944000C6642 /* Templates */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Templates; sourceTree = SOURCE_ROOT; };
 		D0177AC2248157A800C5C368 /* Documentation */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Documentation; sourceTree = "<group>"; };
 		D030AEBC24829FA700FAE17C /* URL+Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Info.swift"; sourceTree = "<group>"; };
 		D0880EF224823B1B00B25972 /* BXAppleScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BXAppleScript.swift; sourceTree = "<group>"; };
@@ -141,6 +142,7 @@
 				D0C1B0ED24810AD8004FA162 /* AppDelegate.swift */,
 				D0C1B0F624810AD9004FA162 /* Main.storyboard */,
 				D0C1B0F124810AD9004FA162 /* Assets.xcassets */,
+				9889E4412483A944000C6642 /* Templates */,
 				D030AEBE2482A18800FAE17C /* Helpers */,
 			);
 			path = Application;
@@ -247,8 +249,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9889E4422483A944000C6642 /* Templates in Resources */,
 				D0C1B0F824810AD9004FA162 /* Main.storyboard in Resources */,
-				D0177AC3248157A800C5C368 /* Documentation in Resources */,
 				D0C1B0F224810AD9004FA162 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

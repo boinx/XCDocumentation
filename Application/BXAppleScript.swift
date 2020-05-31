@@ -79,29 +79,9 @@ public class BXAppleScript
 		guard let srcURL = Bundle.main.url(forResource:name, withExtension:"scpt") else { throw Error.missingScript }
 
 		let directoryURL = try self.scriptsDirectoryURL()
-		
-		let panel = NSOpenPanel()
-		panel.directoryURL = directoryURL
-		panel.canChooseDirectories = true
-		panel.canChooseFiles = false
-		panel.prompt = "Select Script Folder"
-		panel.message = "Please select the User > Library > Application Scripts > com.boinx.XCDocumentation.Extension folder"
-		
-		let button = panel.runModal()
-		
-		if button == .OK
-		{
-			if let selectedURL = panel.url, selectedURL == directoryURL
-			{
-				let dstURL = directoryURL.appendingPathComponent(name).appendingPathExtension("scpt")
-				try? FileManager.default.removeItem(at:dstURL)
-				try FileManager.default.copyItem(at:srcURL, to:dstURL)
-			}
-			else
-			{
-				throw Error.incorrectDirectory
-			}
-		}
+		let dstURL = directoryURL.appendingPathComponent(name).appendingPathExtension("scpt")
+		try? FileManager.default.removeItem(at:dstURL)
+		try FileManager.default.copyItem(at:srcURL, to:dstURL)
 	}
 	
 

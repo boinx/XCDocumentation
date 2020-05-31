@@ -6,5 +6,11 @@
 	<true/>
 	<key>com.apple.security.files.user-selected.read-write</key>
 	<true/>
+	<key>com.apple.security.temporary-exception.files.home-relative-path.read-write</key>
+	<array>
+		<string>/Library/Application Scripts/com.boinx.XCDocumentation.Extension/</string>
+		<string>/Library/Application Support/com.boinx.XCDocumentation/</string>
+		<string>/</string>
+	</array>
 </dict>
 </plist>
