@@ -329,7 +329,8 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	{
 		guard let documentationURL = documentationURL else { return nil }
 		guard documentationURL.hasPrefix("documentation://") else { return nil }
-		return documentationURL.replacingOccurrences(of:"documentation://", with:"")
+		let relativePath = documentationURL.replacingOccurrences(of:"documentation://", with:"")
+		return relativePath.replacingOccurrences(of:"%20", with:" ")
 	}
 	
 
@@ -350,7 +351,7 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 		
 		// Insert the comment at the current cursor position
 			
-		let comment = "documentation://\(relativePath)"
+		let comment = "documentation://\(relativePath.replacingOccurrences(of:" ", with:"%20"))"
 		let newLine = line.replacingCharacters(in:NSMakeRange(col,0), with:comment)
 		buffer.lines[row] = newLine as NSString
 		
