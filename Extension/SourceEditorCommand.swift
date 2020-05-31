@@ -219,6 +219,20 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	}
 	
 	
+	func documentationURL(in line:String) -> String?
+	{
+		return nil
+	}
+	
+	func relativePath(in documentationURL:String?) -> String?
+	{
+		guard let documentationURL = documentationURL else { return nil }
+		guard documentationURL.hasPrefix("documentation://") else { return nil }
+		return documentationURL.replacingOccurrences(of:"documentation://", with:"")
+	}
+	
+	/// Creates a "documentation://relativePath" comment and inserts it in the source code at the current cursor position
+	
 	func insertDocumentationComment(with relativePath:String?, in buffer:XCSourceTextBuffer)
 	{
 		guard let relativePath = relativePath else { return }
