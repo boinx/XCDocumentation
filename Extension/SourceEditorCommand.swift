@@ -50,7 +50,11 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 			self.newDocumentation()
 			{
 				relativePath,error in
-				self.insertDocumentationComment(with:relativePath, in:buffer)
+				
+				if relativePath?.count ?? 0 > 1
+				{
+					self.insertDocumentationComment(with:relativePath, in:buffer)
+				}
 				completionHandler(error)
 			}
 		}
