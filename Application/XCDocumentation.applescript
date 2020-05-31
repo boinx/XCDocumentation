@@ -26,8 +26,13 @@ on openDocumentation(relativePath)
 	set absolutePath to absolutePath & "Documentation/" & relativePath
 	set myFile to POSIX file absolutePath
 	
-	-- Try to open the file 
-	tell application "Finder" to open myFile
+	-- Try to open the file
+	try
+		tell application "Finder" to open myFile
+	on error
+		set message to "The file '" & relativePath & "' doesn't exist."
+		display dialog message with title "Error" with icon caution buttons {"OK"} default button "OK"
+	end try
 	return absolutePath
 	
 end openDocumentation
