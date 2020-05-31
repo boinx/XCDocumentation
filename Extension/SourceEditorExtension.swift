@@ -13,7 +13,18 @@ import XcodeKit
 
 //----------------------------------------------------------------------------------------------------------------------
 	
+
+// When the extension doesn't get loaded by the system type the following command into terminal:
+//
+//	  $ PATH=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support:"$PATH"
+//	  $ lsregister -f /Applications/Xcode.app
+//
+// More info at https://github.com/nicklockwood/SwiftFormat/issues/494
+
+
+//----------------------------------------------------------------------------------------------------------------------
 	
+
 class SourceEditorExtension : NSObject, XCSourceEditorExtension
 {
     func extensionDidFinishLaunching()
