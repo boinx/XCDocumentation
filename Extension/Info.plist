@@ -40,17 +40,17 @@
 					<key>XCSourceEditorCommandClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).SourceEditorCommand</string>
 					<key>XCSourceEditorCommandIdentifier</key>
-					<string>$(PRODUCT_BUNDLE_IDENTIFIER).show</string>
+					<string>$(PRODUCT_BUNDLE_IDENTIFIER).open</string>
 					<key>XCSourceEditorCommandName</key>
-					<string>Show</string>
+					<string>Open</string>
 				</dict>
 				<dict>
 					<key>XCSourceEditorCommandClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).SourceEditorCommand</string>
 					<key>XCSourceEditorCommandIdentifier</key>
-					<string>$(PRODUCT_BUNDLE_IDENTIFIER).edit</string>
+					<string>$(PRODUCT_BUNDLE_IDENTIFIER).divider</string>
 					<key>XCSourceEditorCommandName</key>
-					<string>Edit</string>
+					<string>-</string>
 				</dict>
 				<dict>
 					<key>XCSourceEditorCommandClassName</key>

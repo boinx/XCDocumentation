@@ -17,6 +17,9 @@ import AppKit
 	
 // Find details at documentation://Architecture.pdf to get the big picture.
 
+// documentation://Test.pages
+// documentation://Bla.pdf
+
 
 //----------------------------------------------------------------------------------------------------------------------
 	
@@ -51,20 +54,7 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 		
 		// Open existing documentation
 		
-		else if identifier == "com.boinx.XCDocumentation.Extension.show"
-		{
-			let relativePath = self.selectedString(for:invocation)
-			
-			self.showDocumentation(for:relativePath)
-			{
-				_,error in
-				completionHandler(error)
-			}
-		}
-		
-		// Open existing documentation
-		
-		else if identifier == "com.boinx.XCDocumentation.Extension.edit"
+		else if identifier == "com.boinx.XCDocumentation.Extension.open"
 		{
 			let relativePath = self.selectedString(for:invocation)
 			
