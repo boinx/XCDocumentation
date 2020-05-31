@@ -11,6 +11,8 @@
 		D030AEBD24829FA700FAE17C /* URL+Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030AEBC24829FA700FAE17C /* URL+Info.swift */; };
 		D030AEBF2482A18F00FAE17C /* URL+Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030AEBC24829FA700FAE17C /* URL+Info.swift */; };
 		D030AEC02482A19D00FAE17C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C1B0EF24810AD8004FA162 /* ContentView.swift */; };
+		D0421A502483CF2200349F60 /* NSOpenPanel+selectFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0421A4F2483CF2200349F60 /* NSOpenPanel+selectFolder.swift */; };
+		D0421A512483CF2200349F60 /* NSOpenPanel+selectFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0421A4F2483CF2200349F60 /* NSOpenPanel+selectFolder.swift */; };
 		D0880EF4248277C700B25972 /* BXAppleScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0880EF224823B1B00B25972 /* BXAppleScript.swift */; };
 		D0880EF52482792F00B25972 /* BXAppleScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0880EF224823B1B00B25972 /* BXAppleScript.swift */; };
 		D0B94C0B2481856200DE1AF9 /* XCDocumentation.applescript in Sources */ = {isa = PBXBuildFile; fileRef = D0B94C0A2481856200DE1AF9 /* XCDocumentation.applescript */; };
@@ -67,6 +69,7 @@
 		9889E4412483A944000C6642 /* Templates */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Templates; sourceTree = SOURCE_ROOT; };
 		D0177AC2248157A800C5C368 /* Documentation */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Documentation; sourceTree = "<group>"; };
 		D030AEBC24829FA700FAE17C /* URL+Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Info.swift"; sourceTree = "<group>"; };
+		D0421A4F2483CF2200349F60 /* NSOpenPanel+selectFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSOpenPanel+selectFolder.swift"; sourceTree = "<group>"; };
 		D0880EF224823B1B00B25972 /* BXAppleScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BXAppleScript.swift; sourceTree = "<group>"; };
 		D0B94C0A2481856200DE1AF9 /* XCDocumentation.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = XCDocumentation.applescript; sourceTree = "<group>"; };
 		D0C1B0EA24810AD8004FA162 /* XCDocumentation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCDocumentation.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				D0880EF224823B1B00B25972 /* BXAppleScript.swift */,
+				D0421A4F2483CF2200349F60 /* NSOpenPanel+selectFolder.swift */,
 				D030AEBC24829FA700FAE17C /* URL+Info.swift */,
 				D0C1B0EF24810AD8004FA162 /* ContentView.swift */,
 			);
@@ -270,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0C1B0F024810AD8004FA162 /* ContentView.swift in Sources */,
+				D0421A512483CF2200349F60 /* NSOpenPanel+selectFolder.swift in Sources */,
 				D0C1B0EE24810AD8004FA162 /* AppDelegate.swift in Sources */,
 				D0B94C0B2481856200DE1AF9 /* XCDocumentation.applescript in Sources */,
 				D030AEBD24829FA700FAE17C /* URL+Info.swift in Sources */,
@@ -282,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0C1B10A24810B70004FA162 /* SourceEditorExtension.swift in Sources */,
+				D0421A502483CF2200349F60 /* NSOpenPanel+selectFolder.swift in Sources */,
 				D030AEC02482A19D00FAE17C /* ContentView.swift in Sources */,
 				D0880EF52482792F00B25972 /* BXAppleScript.swift in Sources */,
 				D0C1B10C24810B70004FA162 /* SourceEditorCommand.swift in Sources */,

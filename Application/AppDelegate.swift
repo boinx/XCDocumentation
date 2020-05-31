@@ -23,15 +23,7 @@ import Cocoa
 			self.installScript(self)
 		}
 
-		// at fisrt run this will install the templates shipped with the bundle
-		do
-		{
-			_ = try self.templateDirectoryURL()
-		}
-		catch let error
-		{
-			print(error)
-		}
+		self.installTemplates(self)
 	}
 
 
@@ -41,38 +33,70 @@ import Cocoa
 	}
 
 
+//----------------------------------------------------------------------------------------------------------------------
+	
+	
 	@IBAction func installScript(_ sender:AnyObject!)
 	{
 		try? BXAppleScript.installScript(named:"XCDocumentation")
 	}
 	
+	
 	@IBAction func openTemplateFolder(_ sender:AnyObject!)
 	{
-		if let templateDirectoryURL = try? templateDirectoryURL()
+		let folderURL = self.templateDirectoryURL
+
+		if !folderURL.exists
 		{
-			NSWorkspace.shared.open(templateDirectoryURL)
+			try? FileManager.default.createDirectory(at:folderURL, withIntermediateDirectories:true, attributes:nil)
 		}
+		
+		NSWorkspace.shared.open(folderURL)
 	}
 	
-	public func templateDirectoryURL() throws -> URL
+
+	@IBAction func installTemplates(_ sender:AnyObject!)
 	{
-		let applicationSupportURL = URL(fileURLWithPath:"/Users/\(NSUserName())/Library/Application Support/com.boinx.XCDocumentation")
+		guard let srcFolderURL = Bundle.main.url(forResource: "Templates", withExtension: nil) else { return }
+		let dstFolderURL = self.templateDirectoryURL
 		
-		let userTemplatesURL = applicationSupportURL.appendingPathComponent("Templates")
-		
-		if !FileManager.default.fileExists(atPath:userTemplatesURL.path)
+		if !dstFolderURL.exists
 		{
-			// try FileManager.default.createDirectory(at:userTemplatesURL, withIntermediateDirectories:true, attributes:nil)
-			
-			if let bundleTemplatesURL = Bundle.main.url(forResource: "Templates", withExtension: nil)
+			try? FileManager.default.createDirectory(at:dstFolderURL, withIntermediateDirectories:true, attributes:nil)
+		}
+		
+		if let urls = try? FileManager.default.contentsOfDirectory(at:srcFolderURL, includingPropertiesForKeys:[.contentModificationDateKey], options:[])
+		{
+			for srcFileURL in urls
 			{
-				try FileManager.default.copyItem(at: bundleTemplatesURL, to: userTemplatesURL)
+				let filename = srcFileURL.lastPathComponent
+				let dstFileURL = dstFolderURL.appendingPathComponent(filename)
+				var shouldInstall = true
+				
+				if let srcDate = srcFileURL.modificationDate, let dstDate = dstFileURL.modificationDate, srcDate <= dstDate
+				{
+					shouldInstall = false
+				}
+				
+				if shouldInstall
+				{
+					try? FileManager.default.removeItem(at:dstFileURL)
+					try? FileManager.default.copyItem(at:srcFileURL, to:dstFileURL)
+				}
 			}
 		}
-		
-		return userTemplatesURL
 	}
 	
+	
+//----------------------------------------------------------------------------------------------------------------------
+	
+	
+	public var templateDirectoryURL : URL
+	{
+		let applicationSupportURL = URL(fileURLWithPath:"/Users/\(NSUserName())/Library/Application Support/com.boinx.XCDocumentation")
+		let userTemplatesURL = applicationSupportURL.appendingPathComponent("Templates")
+		return userTemplatesURL
+	}
 
 }
 
