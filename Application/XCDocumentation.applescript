@@ -18,7 +18,10 @@ end run
 on newDocumentation(templatePath)
 	
 	set sorceRootPath to SRCROOT()
-	
+
+	-- store the current edited file to be able to make it open when we leave the script, other wise Xcode will be stuck in the execution of the extension command
+	set sourceFilePath to activeSourceFilePath()
+
 	-- Let the user enter a file name
 	set nameSuggestion to fileNameWithoutExtension(activeSourceFileName())
 	set theResponse to display dialog "Please enter the name of the documentation file" default answer nameSuggestion with icon note buttons {"Cancel", "OK"} default button "OK"
@@ -96,6 +99,10 @@ on newDocumentation(templatePath)
 			
 			open file newFileName of documentationFolder
 			
+			tell application "Xcode"
+				open (POSIX file sourceFilePath) as alias
+			end tell
+
 			return newFileName
 		end tell
 	end if
