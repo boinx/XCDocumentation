@@ -12,6 +12,9 @@ import XcodeKit
 import AppKit
 
 
+//----------------------------------------------------------------------------------------------------------------------
+	
+	
 // Find details at documentation://Architecture.pdf to get the big picture.
 
 
@@ -21,34 +24,53 @@ import AppKit
 class SourceEditorCommand : NSObject, XCSourceEditorCommand
 {
 
+	enum Error : Swift.Error
+	{
+		case invalidCommand
+	}
+	
+	
 	/// This is the entry point when menu commands are selected in the Xcode editor menu
 	
-    func perform(with invocation:XCSourceEditorCommandInvocation, completionHandler:@escaping (Error?)->Void) -> Void
+    func perform(with invocation:XCSourceEditorCommandInvocation, completionHandler:@escaping (Swift.Error?)->Void) -> Void
     {
 		let identifier = invocation.commandIdentifier
 		let buffer = invocation.buffer
 		
+		// Create a new documentation file and insert a documentation:// comment at the current selection
+		
+		if identifier == "com.boinx.XCDocumentation.Extension.new"
+		{
+			self.newDocumentation()
+			{
+				relativePath,error in
+				self.insertDocumentationComment(with:relativePath, in:buffer)
+				completionHandler(error)
+			}
+		}
+		
 		// Open existing documentation
 		
-		if identifier == "com.boinx.XCDocumentation.Extension.open"
+		else if identifier == "com.boinx.XCDocumentation.Extension.show"
 		{
 			let relativePath = self.selectedString(for:invocation)
 			
-			self.openDocumentation(for:relativePath)
+			self.showDocumentation(for:relativePath)
 			{
 				_,error in
 				completionHandler(error)
 			}
 		}
 		
-		// Create a new documentation file and insert a documentation:// comment at the current selection
+		// Open existing documentation
 		
-		else if identifier == "com.boinx.XCDocumentation.Extension.new"
+		else if identifier == "com.boinx.XCDocumentation.Extension.edit"
 		{
-			self.newDocumentation()
+			let relativePath = self.selectedString(for:invocation)
+			
+			self.editDocumentation(for:relativePath)
 			{
-				relativePath,error in
-				self.insertDocumentationComment(with:relativePath, in:buffer)
+				_,error in
 				completionHandler(error)
 			}
 		}
@@ -64,6 +86,13 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 				completionHandler(error)
 			}
 		}
+		
+		// Unknown command, but we still have to call the completion handler or we'll hand Xcode
+		
+		else
+		{
+			completionHandler(Error.invalidCommand)
+		}
     }
     
     
@@ -72,46 +101,11 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	
 	// MARK: -
 	
-	/// Opens the documentation file for the specified relativePath
-	/// - Returns: The absolute path to the documentation file
-	
-	func openDocumentation(for relativePath:String, completionHandler:@escaping (String?,Error?)->Void)
-    {
-		do
-		{
-			let script = try BXAppleScript(named:"XCDocumentation")
-			
-			script.run(function:"openDocumentation", argument:relativePath)
-			{
-				result,error in
 
-				if let error = error
-				{
-					NSLog("SCRIPT ERROR: \(error)")
-				}
-				else if let result = result
-				{
-					NSLog("result = \(result)")
-				}
-				
-				completionHandler(result,error)
-			}
-		}
-		catch let error
-		{
-			NSLog("ERROR: \(error)")
-			completionHandler(nil,error)
-		}
-    }
-
-
-//----------------------------------------------------------------------------------------------------------------------
-	
-	
 	/// Lets the user create a new the documentation file.
 	/// - Returns: The relative path to the documentation file
 	
-	func newDocumentation(completionHandler:@escaping (String?,Error?)->Void)
+	func newDocumentation(completionHandler:@escaping (String?,Swift.Error?)->Void)
     {
 		do
 		{
@@ -146,10 +140,82 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 //----------------------------------------------------------------------------------------------------------------------
 	
 	
+	/// Shows the documentation file for the specified relativePath in Xcode
+	/// - Returns: The absolute path to the documentation file
+	
+	func showDocumentation(for relativePath:String, completionHandler:@escaping (String?,Swift.Error?)->Void)
+    {
+		do
+		{
+			let script = try BXAppleScript(named:"XCDocumentation")
+			
+			script.run(function:"showDocumentation", argument:relativePath)
+			{
+				result,error in
+
+				if let error = error
+				{
+					NSLog("SCRIPT ERROR: \(error)")
+				}
+				else if let result = result
+				{
+					NSLog("result = \(result)")
+				}
+				
+				completionHandler(result,error)
+			}
+		}
+		catch let error
+		{
+			NSLog("ERROR: \(error)")
+			completionHandler(nil,error)
+		}
+    }
+
+
+//----------------------------------------------------------------------------------------------------------------------
+	
+	
+	/// Opens the documentation file for the specified relativePath in its native editor app
+	/// - Returns: The absolute path to the documentation file
+	
+	func editDocumentation(for relativePath:String, completionHandler:@escaping (String?,Swift.Error?)->Void)
+    {
+		do
+		{
+			let script = try BXAppleScript(named:"XCDocumentation")
+			
+			script.run(function:"editDocumentation", argument:relativePath)
+			{
+				result,error in
+
+				if let error = error
+				{
+					NSLog("SCRIPT ERROR: \(error)")
+				}
+				else if let result = result
+				{
+					NSLog("result = \(result)")
+				}
+				
+				completionHandler(result,error)
+			}
+		}
+		catch let error
+		{
+			NSLog("ERROR: \(error)")
+			completionHandler(nil,error)
+		}
+    }
+
+
+//----------------------------------------------------------------------------------------------------------------------
+	
+	
 	/// Lets the user select an existing documentation file.
 	/// - Returns: The relative path to the documentation file
 	
-	func selectDocumentation(completionHandler:@escaping (String?,Error?)->Void)
+	func selectDocumentation(completionHandler:@escaping (String?,Swift.Error?)->Void)
     {
 		do
 		{
@@ -182,7 +248,7 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 //----------------------------------------------------------------------------------------------------------------------
 	
 	
-	// MARK: -
+	// MARK: - Helpers
 	
 	
     func selectedLine(for invocation:XCSourceEditorCommandInvocation) -> String
@@ -221,6 +287,9 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	}
 	
 	
+//----------------------------------------------------------------------------------------------------------------------
+	
+	
 	func documentationURL(in line:String) -> String?
 	{
 		return nil
@@ -232,6 +301,10 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 		guard documentationURL.hasPrefix("documentation://") else { return nil }
 		return documentationURL.replacingOccurrences(of:"documentation://", with:"")
 	}
+	
+
+//----------------------------------------------------------------------------------------------------------------------
+	
 	
 	/// Creates a "documentation://relativePath" comment and inserts it in the source code at the current cursor position
 	
