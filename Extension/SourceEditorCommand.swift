@@ -109,7 +109,8 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	
 
 	/// Lets the user create a new the documentation file.
-	/// - Returns: The relative path to the documentation file
+	/// - parameter completionHandler: This closure is called when the script finished executing
+	/// - returns: The relative path to the documentation file
 	
 	func newDocumentation(completionHandler:@escaping (String?,Swift.Error?)->Void)
     {
@@ -147,7 +148,9 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	
 	
 	/// Shows the documentation file for the specified relativePath in Xcode
-	/// - Returns: The absolute path to the documentation file
+	/// - parameter relativePath: This path is passed as the first argument to the script function
+	/// - parameter completionHandler: This closure is called when the script finished executing
+	/// - returns: The absolute path to the documentation file
 	
 	func showDocumentation(for relativePath:String, completionHandler:@escaping (String?,Swift.Error?)->Void)
     {
@@ -183,7 +186,9 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	
 	
 	/// Opens the documentation file for the specified relativePath in its native editor app
-	/// - Returns: The absolute path to the documentation file
+	/// - parameter relativePath: This path is passed as the first argument to the script function
+	/// - parameter completionHandler: This closure is called when the script finished executing
+	/// - returns: The absolute path to the documentation file
 	
 	func editDocumentation(for relativePath:String, completionHandler:@escaping (String?,Swift.Error?)->Void)
     {
@@ -219,7 +224,8 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	
 	
 	/// Lets the user select an existing documentation file.
-	/// - Returns: The relative path to the documentation file
+	/// - parameter completionHandler: This closure is called when the script finished executing
+	/// - returns: The relative path to the documentation file
 	
 	func selectDocumentation(completionHandler:@escaping (String?,Swift.Error?)->Void)
     {
@@ -257,6 +263,8 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	// MARK: - Helpers
 	
 	
+	/// Returns the source code full line at the cursor position or first selection
+	
     func selectedLine(for invocation:XCSourceEditorCommandInvocation) -> String
     {
 		guard let lines = invocation.buffer.lines as? [String] else { return "" }
@@ -290,6 +298,8 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 //----------------------------------------------------------------------------------------------------------------------
 	
 	
+	/// Returns true if the cursor in the specified source code line is inside a comment
+	
 	func isCommentLine(_ line:String, cursorPos:Int) -> Bool
 	{
 		if line.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).hasPrefix("//")
@@ -310,6 +320,8 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 		return false
 	}
 	
+	
+	/// Parses the specified source code line and returns the first documentation link that might be contained in it
 	
 	func documentationURL(in line:String) -> String?
 	{
@@ -340,6 +352,8 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 		return nil
 	}
 	
+	
+	/// Returns the the relative path for the specified documentation link
 	
 	func relativePath(in documentationLink:String?) -> String?
 	{

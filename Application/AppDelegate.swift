@@ -16,6 +16,8 @@ import Cocoa
 @NSApplicationMain class AppDelegate : NSObject, NSApplicationDelegate
 {
 
+	// Upon app launch, install latest versino of AppleScript and Templates
+	
 	func applicationDidFinishLaunching(_ notification:Notification)
 	{
 		if BXAppleScript.needsInstalling(for:"XCDocumentation")
@@ -36,11 +38,15 @@ import Cocoa
 //----------------------------------------------------------------------------------------------------------------------
 	
 	
+	/// Installs the XCDocumentation.scpt in teh appropriate folder
+	
 	@IBAction func installScript(_ sender:AnyObject!)
 	{
 		try? BXAppleScript.installScript(named:"XCDocumentation")
 	}
 	
+	
+	/// Open the "Templates" folder in Application Support
 	
 	@IBAction func openTemplateFolder(_ sender:AnyObject!)
 	{
@@ -55,6 +61,8 @@ import Cocoa
 	}
 	
 
+	/// Copies the latest versions of shipped template files to the "Templates" folder
+	
 	@IBAction func installTemplates(_ sender:AnyObject!)
 	{
 		guard let srcFolderURL = Bundle.main.url(forResource: "Templates", withExtension: nil) else { return }
@@ -90,6 +98,8 @@ import Cocoa
 	
 //----------------------------------------------------------------------------------------------------------------------
 	
+	
+	/// Returns the URL to the "Templates" folder in the user's Application Support directory
 	
 	public var templateDirectoryURL : URL
 	{
