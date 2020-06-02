@@ -290,9 +290,19 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 //----------------------------------------------------------------------------------------------------------------------
 	
 	
-	func isCommentLine(_ line:String) -> Bool
+	func isCommentLine(_ line:String, cursorPos:Int) -> Bool
 	{
 		if line.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).hasPrefix("//")
+		{
+			return true
+		}
+		
+		if line.prefix(cursorPos).contains("//")
+		{
+			return true
+		}
+		
+		if line.prefix(cursorPos).contains("/*")
 		{
 			return true
 		}
@@ -359,7 +369,7 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 			
 		var documentationLink = "documentation://\(relativePath.replacingOccurrences(of:" ", with:"%20"))"
 		
-		if !isCommentLine(line as String)
+		if !isCommentLine(line as String, cursorPos:col)
 		{
 			documentationLink = "// " + documentationLink
 		}
