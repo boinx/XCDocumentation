@@ -12,7 +12,6 @@
 		D0880EF52482792F00B25972 /* BXAppleScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0880EF224823B1B00B25972 /* BXAppleScript.swift */; };
 		D0B94C0B2481856200DE1AF9 /* XCDocumentation.applescript in Sources */ = {isa = PBXBuildFile; fileRef = D0B94C0A2481856200DE1AF9 /* XCDocumentation.applescript */; };
 		D0C1B0EE24810AD8004FA162 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C1B0ED24810AD8004FA162 /* AppDelegate.swift */; };
-		D0C1B0F024810AD8004FA162 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C1B0EF24810AD8004FA162 /* ContentView.swift */; };
 		D0C1B0F224810AD9004FA162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0C1B0F124810AD9004FA162 /* Assets.xcassets */; };
 		D0C1B0F824810AD9004FA162 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0C1B0F624810AD9004FA162 /* Main.storyboard */; };
 		D0C1B10724810B70004FA162 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C1B10624810B70004FA162 /* Cocoa.framework */; };
@@ -66,7 +65,6 @@
 		D0B94C0A2481856200DE1AF9 /* XCDocumentation.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = XCDocumentation.applescript; sourceTree = "<group>"; };
 		D0C1B0EA24810AD8004FA162 /* XCDocumentation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCDocumentation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C1B0ED24810AD8004FA162 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D0C1B0EF24810AD8004FA162 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D0C1B0F124810AD9004FA162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0C1B0F724810AD9004FA162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D0C1B0F924810AD9004FA162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -127,7 +125,6 @@
 				D0880EF224823B1B00B25972 /* BXAppleScript.swift */,
 				D0B94C0A2481856200DE1AF9 /* XCDocumentation.applescript */,
 				D0C1B0F624810AD9004FA162 /* Main.storyboard */,
-				D0C1B0EF24810AD8004FA162 /* ContentView.swift */,
 				D0C1B0F124810AD9004FA162 /* Assets.xcassets */,
 			);
 			path = Application;
@@ -254,7 +251,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0C1B0F024810AD8004FA162 /* ContentView.swift in Sources */,
 				D0C1B0EE24810AD8004FA162 /* AppDelegate.swift in Sources */,
 				D0B94C0B2481856200DE1AF9 /* XCDocumentation.applescript in Sources */,
 				D0880EF4248277C700B25972 /* BXAppleScript.swift in Sources */,
@@ -466,6 +462,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boinx.XCDocumentation.Extension;
 				PRODUCT_NAME = Documentation;
 				SKIP_INSTALL = YES;
@@ -487,6 +484,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boinx.XCDocumentation.Extension;
 				PRODUCT_NAME = Documentation;
 				SKIP_INSTALL = YES;
