@@ -31,6 +31,8 @@ public class BXAppleScript
 	
 	// MARK: -
 	
+	/// Returns a URL to the "Application Scripts" folder for the extension
+	
 	public class func scriptsDirectoryURL() throws -> URL
 	{
 		var scriptsDirectoryURL = try FileManager.default.url(for:.applicationScriptsDirectory, in:.userDomainMask, appropriateFor:nil, create:true)
@@ -48,6 +50,8 @@ public class BXAppleScript
 		return scriptsDirectoryURL
 	}
 	
+	
+	/// Returns true if the script with the specified name needs to be installed
 	
 	public class func needsInstalling(for name:String) -> Bool
 	{
@@ -73,6 +77,8 @@ public class BXAppleScript
 		return true
 	}
 	
+	
+	/// Installs the script with the specified name
 	
 	public class func installScript(named name:String) throws
 	{
@@ -105,6 +111,9 @@ public class BXAppleScript
 	
 	// MARK: -
 	
+	
+	/// Loads and instantiates the script with the specified name
+	
 	public init(named name:String) throws
 	{
 		let scriptsDirectoryURL = try FileManager.default.url(for:.applicationScriptsDirectory, in:.userDomainMask, appropriateFor:nil, create:true)
@@ -115,6 +124,11 @@ public class BXAppleScript
     
 //----------------------------------------------------------------------------------------------------------------------
 	
+	
+	/// Executes the function with the specified name and argument.
+	/// - parameter functionName: The name of the AppleScript function
+	/// - parameter argument: This String is passed to the function as the first argument
+	/// - parameter completionHandler: This closure returns the String result or an error if the script failed
 	
 	public func run(function functionName:String? = nil, argument:String? = nil, completionHandler:@escaping (String?,Swift.Error?)->Void)
 	{
