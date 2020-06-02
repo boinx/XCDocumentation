@@ -263,13 +263,7 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 		guard let selection = invocation.buffer.selections.firstObject as? XCSourceTextRange else { return "" }
 
 		let row = selection.start.line
-		let col1 = selection.start.column
-		let col2 = selection.end.column
-
-		print("row=\(row)  col1=\(col1)  col2=\(col2)")
-		
 		let line = lines[row]
-		print("line=\(line)")
 		return line
 	}
     
@@ -337,11 +331,11 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 	}
 	
 	
-	func relativePath(in documentationURL:String?) -> String?
+	func relativePath(in documentationLink:String?) -> String?
 	{
-		guard let documentationURL = documentationURL else { return nil }
-		guard documentationURL.hasPrefix("documentation://") else { return nil }
-		let relativePath = documentationURL.replacingOccurrences(of:"documentation://", with:"")
+		guard let documentationLink = documentationLink else { return nil }
+		guard documentationLink.hasPrefix("documentation://") else { return nil }
+		let relativePath = documentationLink.replacingOccurrences(of:"documentation://", with:"")
 		return relativePath.replacingOccurrences(of:"%20", with:" ")
 	}
 	
