@@ -17,9 +17,6 @@ import AppKit
 	
 // Find details at documentation://Architecture.pdf to get the big picture.
 
-// documentation://Test.pages
-// documentation://Bla.pdf
-
 
 //----------------------------------------------------------------------------------------------------------------------
 	
