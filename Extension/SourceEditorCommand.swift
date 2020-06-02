@@ -50,7 +50,7 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 				
 				if relativePath?.count ?? 0 > 1
 				{
-					self.insertDocumentationComment(with:relativePath, in:buffer)
+					self.insertDocumentationLink(with:relativePath, in:buffer)
 				}
 				completionHandler(error)
 			}
@@ -88,7 +88,7 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 			self.selectDocumentation()
 			{
 				relativePath,error in
-				self.insertDocumentationComment(with:relativePath, in:buffer)
+				self.insertDocumentationLink(with:relativePath, in:buffer)
 				completionHandler(error)
 			}
 		}
@@ -296,6 +296,17 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 //----------------------------------------------------------------------------------------------------------------------
 	
 	
+	func isCommentLine(_ line:String) -> Bool
+	{
+		if line.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).hasPrefix("//")
+		{
+			return true
+		}
+		
+		return false
+	}
+	
+	
 	func documentationURL(in line:String) -> String?
 	{
 		let pattern = "documentation://([^\\s]*)"
@@ -338,9 +349,9 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 //----------------------------------------------------------------------------------------------------------------------
 	
 	
-	/// Creates a "documentation://relativePath" comment and inserts it in the source code at the current cursor position
+	/// Creates a "documentation://relativePath" link and inserts it in the source code at the current cursor position
 	
-	func insertDocumentationComment(with relativePath:String?, in buffer:XCSourceTextBuffer)
+	func insertDocumentationLink(with relativePath:String?, in buffer:XCSourceTextBuffer)
 	{
 		guard let relativePath = relativePath else { return }
 		guard let lines = buffer.lines as? [String] else { return }
@@ -350,15 +361,21 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 		let col = selection.start.column
 		let line = lines[row] as NSString
 		
-		// Insert the comment at the current cursor position
+		// Insert the link at the current cursor position
 			
-		let comment = "documentation://\(relativePath.replacingOccurrences(of:" ", with:"%20"))"
-		let newLine = line.replacingCharacters(in:NSMakeRange(col,0), with:comment)
+		var documentationLink = "documentation://\(relativePath.replacingOccurrences(of:" ", with:"%20"))"
+		
+		if !isCommentLine(line as String)
+		{
+			documentationLink = "// " + documentationLink
+		}
+		
+		let newLine = line.replacingCharacters(in:NSMakeRange(col,0), with:documentationLink)
 		buffer.lines[row] = newLine as NSString
 		
 		// Select the new comment
 		
-		let n = comment.count
+		let n = documentationLink.count
 		selection.start.column = col
 		selection.end.column = col+n
 	}
