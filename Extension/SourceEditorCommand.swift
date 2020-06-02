@@ -383,6 +383,14 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 			
 		var documentationLink = "documentation://\(relativePath.replacingOccurrences(of:" ", with:"%20"))"
 		
+		if col > 0
+		{
+			if line.substring(with: NSMakeRange(col-1,1)) != " "
+			{
+				documentationLink = " " + documentationLink
+			}
+		}
+		
 		if !isCommentLine(line as String, cursorPos:col)
 		{
 			documentationLink = "// " + documentationLink
