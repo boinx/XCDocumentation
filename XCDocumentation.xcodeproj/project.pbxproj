@@ -10,14 +10,12 @@
 		9889E4422483A944000C6642 /* Templates in Resources */ = {isa = PBXBuildFile; fileRef = 9889E4412483A944000C6642 /* Templates */; };
 		D030AEBD24829FA700FAE17C /* URL+Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030AEBC24829FA700FAE17C /* URL+Info.swift */; };
 		D030AEBF2482A18F00FAE17C /* URL+Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030AEBC24829FA700FAE17C /* URL+Info.swift */; };
-		D030AEC02482A19D00FAE17C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C1B0EF24810AD8004FA162 /* ContentView.swift */; };
 		D0421A502483CF2200349F60 /* NSOpenPanel+selectFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0421A4F2483CF2200349F60 /* NSOpenPanel+selectFolder.swift */; };
 		D0421A512483CF2200349F60 /* NSOpenPanel+selectFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0421A4F2483CF2200349F60 /* NSOpenPanel+selectFolder.swift */; };
 		D0880EF4248277C700B25972 /* BXAppleScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0880EF224823B1B00B25972 /* BXAppleScript.swift */; };
 		D0880EF52482792F00B25972 /* BXAppleScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0880EF224823B1B00B25972 /* BXAppleScript.swift */; };
 		D0B94C0B2481856200DE1AF9 /* XCDocumentation.applescript in Sources */ = {isa = PBXBuildFile; fileRef = D0B94C0A2481856200DE1AF9 /* XCDocumentation.applescript */; };
 		D0C1B0EE24810AD8004FA162 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C1B0ED24810AD8004FA162 /* AppDelegate.swift */; };
-		D0C1B0F024810AD8004FA162 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C1B0EF24810AD8004FA162 /* ContentView.swift */; };
 		D0C1B0F224810AD9004FA162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0C1B0F124810AD9004FA162 /* Assets.xcassets */; };
 		D0C1B0F824810AD9004FA162 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0C1B0F624810AD9004FA162 /* Main.storyboard */; };
 		D0C1B10724810B70004FA162 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0C1B10624810B70004FA162 /* Cocoa.framework */; };
@@ -32,8 +30,6 @@
 			compilerSpec = com.apple.compilers.osacompile;
 			filePatterns = "*.applescript";
 			fileType = pattern.proxy;
-			inputFiles = (
-			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -74,7 +70,6 @@
 		D0B94C0A2481856200DE1AF9 /* XCDocumentation.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = XCDocumentation.applescript; sourceTree = "<group>"; };
 		D0C1B0EA24810AD8004FA162 /* XCDocumentation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCDocumentation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0C1B0ED24810AD8004FA162 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D0C1B0EF24810AD8004FA162 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D0C1B0F124810AD9004FA162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0C1B0F724810AD9004FA162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D0C1B0F924810AD9004FA162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,7 +107,6 @@
 				D0880EF224823B1B00B25972 /* BXAppleScript.swift */,
 				D0421A4F2483CF2200349F60 /* NSOpenPanel+selectFolder.swift */,
 				D030AEBC24829FA700FAE17C /* URL+Info.swift */,
-				D0C1B0EF24810AD8004FA162 /* ContentView.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -273,7 +267,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0C1B0F024810AD8004FA162 /* ContentView.swift in Sources */,
 				D0421A512483CF2200349F60 /* NSOpenPanel+selectFolder.swift in Sources */,
 				D0C1B0EE24810AD8004FA162 /* AppDelegate.swift in Sources */,
 				D0B94C0B2481856200DE1AF9 /* XCDocumentation.applescript in Sources */,
@@ -288,7 +281,6 @@
 			files = (
 				D0C1B10A24810B70004FA162 /* SourceEditorExtension.swift in Sources */,
 				D0421A502483CF2200349F60 /* NSOpenPanel+selectFolder.swift in Sources */,
-				D030AEC02482A19D00FAE17C /* ContentView.swift in Sources */,
 				D0880EF52482792F00B25972 /* BXAppleScript.swift in Sources */,
 				D0C1B10C24810B70004FA162 /* SourceEditorCommand.swift in Sources */,
 				D030AEBF2482A18F00FAE17C /* URL+Info.swift in Sources */,
@@ -367,7 +359,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -421,7 +413,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -446,7 +438,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boinx.XCDocumentation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -469,7 +461,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boinx.XCDocumentation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -490,6 +482,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boinx.XCDocumentation.Extension;
 				PRODUCT_NAME = Documentation;
 				SKIP_INSTALL = YES;
@@ -511,6 +504,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boinx.XCDocumentation.Extension;
 				PRODUCT_NAME = Documentation;
 				SKIP_INSTALL = YES;
