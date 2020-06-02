@@ -46,21 +46,6 @@ import Cocoa
 	}
 	
 	
-	/// Open the "Templates" folder in Application Support
-	
-	@IBAction func openTemplateFolder(_ sender:AnyObject!)
-	{
-		let folderURL = self.templateDirectoryURL
-
-		if !folderURL.exists
-		{
-			try? FileManager.default.createDirectory(at:folderURL, withIntermediateDirectories:true, attributes:nil)
-		}
-		
-		NSWorkspace.shared.open(folderURL)
-	}
-	
-
 	/// Copies the latest versions of shipped template files to the "Templates" folder
 	
 	@IBAction func installTemplates(_ sender:AnyObject!)
@@ -99,6 +84,39 @@ import Cocoa
 //----------------------------------------------------------------------------------------------------------------------
 	
 	
+	/// Open the "Templates" folder in Application Support
+	
+	@IBAction func openTemplatesFolder(_ sender:AnyObject!)
+	{
+		let folderURL = self.templateDirectoryURL
+
+		if !folderURL.exists
+		{
+			try? FileManager.default.createDirectory(at:folderURL, withIntermediateDirectories:true, attributes:nil)
+		}
+		
+		NSWorkspace.shared.open(folderURL)
+	}
+	
+
+	/// Open the subfolder in Application Scripts
+	
+	@IBAction func openScriptsFolder(_ sender:AnyObject!)
+	{
+		let folderURL = self.scriptDirectoryURL
+
+		if !folderURL.exists
+		{
+			try? FileManager.default.createDirectory(at:folderURL, withIntermediateDirectories:true, attributes:nil)
+		}
+		
+		NSWorkspace.shared.open(folderURL)
+	}
+	
+
+//----------------------------------------------------------------------------------------------------------------------
+	
+	
 	/// Returns the URL to the "Templates" folder in the user's Application Support directory
 	
 	public var templateDirectoryURL : URL
@@ -106,6 +124,14 @@ import Cocoa
 		let applicationSupportURL = URL(fileURLWithPath:"/Users/\(NSUserName())/Library/Application Support/com.boinx.XCDocumentation")
 		let userTemplatesURL = applicationSupportURL.appendingPathComponent("Templates")
 		return userTemplatesURL
+	}
+
+
+	/// Returns the URL to the correct subfolder in the user's Application Scripts directory
+	
+	public var scriptDirectoryURL : URL
+	{
+		return URL(fileURLWithPath:"/Users/\(NSUserName())/Library/Application Scripts/com.boinx.XCDocumentation.Extension")
 	}
 
 }

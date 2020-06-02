@@ -53,20 +53,9 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" id="bib-Uj-vzu">
                                     <items>
-                                        <menuItem title="Install Scripts…" keyEquivalent="i" id="y2b-p0-l4e">
-                                            <connections>
-                                                <action selector="installScript:" target="Voe-Tx-rLC" id="Mwn-Bo-vm6"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Install Templates" keyEquivalent="i" id="kMF-VU-8Xf">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="installTemplates:" target="Voe-Tx-rLC" id="hia-US-Ad6"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Open Template Folder" keyEquivalent="o" id="hdf-5b-SAU">
                                             <connections>
-                                                <action selector="openTemplateFolder:" target="Voe-Tx-rLC" id="twk-ZY-jg5"/>
+                                                <action selector="openTemplatesFolder:" target="Voe-Tx-rLC" id="twk-ZY-jg5"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -111,6 +100,38 @@
                                         <menuItem title="Select All" keyEquivalent="a" id="Ruw-6m-B2m">
                                             <connections>
                                                 <action selector="selectAll:" target="Ady-hI-5gd" id="VNm-Mi-diN"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Debug" id="5ZN-s2-L6L">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Debug" id="JHZ-Zh-Vi2">
+                                    <items>
+                                        <menuItem title="Install Scripts" id="XEW-Sr-uC4">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="installScript:" target="Voe-Tx-rLC" id="mMp-EZ-JB4"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Install Templates" id="181-Af-Nxh">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="installTemplates:" target="Voe-Tx-rLC" id="pW2-a8-GEP"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="jIz-ni-kvk"/>
+                                        <menuItem title="Open Scripts Folder" id="oLW-VK-2eE">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="openScriptsFolder:" target="Voe-Tx-rLC" id="9wM-kd-W4g"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Open Templates Folder" id="4Re-he-JHE">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="openTemplatesFolder:" target="Voe-Tx-rLC" id="zZ2-Hj-84Z"/>
                                             </connections>
                                         </menuItem>
                                     </items>
