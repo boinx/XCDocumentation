@@ -218,9 +218,18 @@ class SourceEditorCommand : NSObject, XCSourceEditorCommand
 		{
 			print("xcodeURL: \(xcodeURL)")
 			print("fileURL: \(url)")
-			let config = NSWorkspace.OpenConfiguration()
-			config.promptsUserIfNeeded = true
-			NSWorkspace.shared.open([url], withApplicationAt:xcodeURL, configuration:config)
+			if #available(OSXApplicationExtension 10.15, *)
+            {
+                let config = NSWorkspace.OpenConfiguration()
+                config.promptsUserIfNeeded = true
+                NSWorkspace.shared.open([url], withApplicationAt:xcodeURL, configuration:config)
+            } else {
+                do {
+                    try NSWorkspace.shared.open([url], withApplicationAt: xcodeURL, options: [], configuration: [:])
+                } catch {
+                    print("Script error: \(error)")
+                }
+            }
 		}
     }
     
