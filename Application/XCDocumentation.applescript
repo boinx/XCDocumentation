@@ -331,7 +331,7 @@ on projectForSourceFilePath(sourceFilePath)
 		set myWorkspace to front workspace document
 		set myProjects to project of myWorkspace
 		set maxPathLength to 0
-		
+		set resolvedProject to project of myWorkspace
 		-- set myProject to first item of myProjects
 		repeat with myProject in myProjects
 			-- log (name of myProject) as text
