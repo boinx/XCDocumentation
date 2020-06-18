@@ -4,8 +4,7 @@
 -- This function should not be called from the Extenstion and is used instead for testing during script development
 
 on run
-	showDocumentationInXcode("Test.pages")
-	--newDocumentation("/Users/peter/Library/Application Support/com.boinx.XCDocumentation/Templates")  
+	newDocumentation("/Users/peter/Library/Application Support/com.boinx.XCDocumentation/Templates")
 end run
 
 
@@ -17,97 +16,106 @@ end run
 
 on newDocumentation(templatePath)
 	
-	set sorceRootPath to SRCROOT()
-
-	-- store the current edited file to be able to make it open when we leave the script, other wise Xcode will be stuck in the execution of the extension command
+	set srcrootPath to SRCROOT()
+	
+	-- Store the current edited file to be able to make it open when we leave the script,
+	-- otherwise Xcode will be stuck in the execution of the extension command
+	
 	set sourceFilePath to activeSourceFilePath()
-
+	
 	-- Let the user enter a file name
+	
 	set nameSuggestion to fileNameWithoutExtension(activeSourceFileName())
-	set theResponse to display dialog "Please enter the name of the documentation file" default answer nameSuggestion with icon note buttons {"Cancel", "OK"} default button "OK"
+	set theResponse to display dialog "New Documentation File:" default answer nameSuggestion with icon note buttons {"Cancel", "OK"} default button "OK"
+	
 	if button returned of theResponse is "OK" then
-		
 		set filename to text returned of theResponse
 	else
 		return ""
-		
 	end if
 	
-	
 	-- get template list
+	
+	set templateNames to {}
 	set myTemplateFolder to (POSIX file templatePath as string) as alias
 	
 	tell application "Finder"
 		set myTemplates to every file of myTemplateFolder
 	end tell
 	
-	set templateNames to {}
-	
 	repeat with myTemplate in myTemplates
 		set templateNames to templateNames & ((name of myTemplate) as string)
 	end repeat
 	
+	-- If we have more than one template then let the user choose one
+	
 	if (count of templateNames) > 1 then
-		-- Let the user select a template from the template list
-		
-		set theChoosenItem to choose from list templateNames with title "Documentation Template Selection" with prompt "Choose a Template" OK button name "OK" cancel button name "Cancel" default items {"Boinx Pages"}
-		
+		set selectedTemplateName to choose from list templateNames with title "Templates" OK button name "OK" cancel button name "Cancel" without multiple selections allowed
 	else
-		
-		-- if there is only one template we don't prompte the user to choose it
-		
-		set theChoosenItem to item 1 of templateNames
+		set selectedTemplateName to item 1 of templateNames
 	end if
 	
-	if theChoosenItem is not false then
-		
-		-- everything is set so start processing the template
+	-- Everything is set so start processing the template
+	
+	restoreXcodeSourceFile(sourceFilePath) of me
+	
+	if selectedTemplateName is not false then
 		tell application "Finder"
-			set myTemplateFile to file named theChoosenItem of myTemplateFolder
-			
-			set srcrootFolder to (POSIX file sorceRootPath) as alias
 			
 			try
+				set srcrootFolder to (POSIX file srcrootPath) as alias
 				set documentationFolder to folder named "Documentation" of srcrootFolder
 			on error
 				-- there is no "Documentation" folder, so lets make it:
 				set documentationFolder to make new folder at srcrootFolder with properties {name:"Documentation"}
 			end try
 			
-			set newFileName to ensureFileExtension(theChoosenItem, filename) of me
-			try
-				-- if the following line doesn't fail then this file already exist!
-				set isFileExisting to file newFileName of documentationFolder
-				
-				display dialog "This file already exist. Pease choose a different name."
-				return ""
-				
-			end try
+			
+			-- If the following doesn't fail then this file already exist!
 			
 			try
-				-- copy the template file from the template folder to the documentation folder
+				set newFileName to ensureFileExtension(selectedTemplateName, filename) of me
+				set fileExists to file newFileName of documentationFolder
+				display dialog "File already exists. Please choose a different name."
+				restoreXcodeSourceFile(sourceFilePath) of me
+				return ""
+			end try
+			
+			-- Copy the template file from the template folder to the documentation folder
+			
+			try
+				set myTemplateFile to file named selectedTemplateName of myTemplateFolder
 				duplicate myTemplateFile to documentationFolder
-				
 			on error
-				display dialog "Something went wrong while copying the template file"
+				display dialog "Failed to copy template file." with icon stop
+				restoreXcodeSourceFile(sourceFilePath) of me
 				return ""
-				
 			end try
-			-- rename the new file to the name the user gave it
-			set newFile to file named theChoosenItem of documentationFolder
-			set name of newFile to newFileName
 			
+			-- Rename the copied template file
+			
+			set newFile to file named selectedTemplateName of documentationFolder
+			set name of newFile to newFileName
 			open file newFileName of documentationFolder
 			
-			tell application "Xcode"
-				open (POSIX file sourceFilePath) as alias
-			end tell
-
+			-- Just in case the user has navigated away from the original source file, go back or Xcode will
+			-- be stuck state where it cannpot be used anymore.
+			
+			restoreXcodeSourceFile(sourceFilePath) of me
 			return newFileName
+			
 		end tell
 	end if
 	
 end newDocumentation
+
+
+on restoreXcodeSourceFile(sourceFilePath)
+	tell application "Xcode"
+		open (POSIX file sourceFilePath) as alias
+	end tell
+end restoreXcodeSourceFile
+
 
 on ensureFileExtension(oldFileName, newFileName)
 	
@@ -134,6 +142,7 @@ on ensureFileExtension(oldFileName, newFileName)
 	return resultFileName
 	
 end ensureFileExtension
+
 
 on fileNameWithoutExtension(filename)
 	
@@ -181,7 +190,7 @@ on editDocumentation(relativePath)
 	
 	set absolutePath to absolutePathFor(relativePath) of me
 	set myFile to POSIX file absolutePath
-
+	
 	try
 		tell application "Finder"
 			open myFile
@@ -189,10 +198,10 @@ on editDocumentation(relativePath)
 	on error
 		displayMissingFileAlert(relativePath)
 	end try
-
+	
 	return absolutePath
 	
-end openDocumentation
+end editDocumentation
 
 
 ------------------------------------------------------------------------------------------------------------------------
@@ -216,7 +225,7 @@ on showDocumentation(relativePath)
 	
 	return absolutePath
 	
-end showDocumentationInXcode
+end showDocumentation
 
 
 ------------------------------------------------------------------------------------------------------------------------
@@ -253,7 +262,7 @@ end absolutePathFor
 on displayMissingFileAlert(relativePath)
 	set message to "The file '" & relativePath & "' doesn't exist."
 	display dialog message with title "Error" with icon caution buttons {"OK"} default button "OK"
-end showDocumentationInXcode
+end displayMissingFileAlert
 
 
 ------------------------------------------------------------------------------------------------------------------------
